@@ -1,0 +1,85 @@
+.container{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left:0px;
+    right:0px;
+}
+
+button{
+    border: none;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+    margin: 0;
+    padding: 0;
+
+}
+
+input{
+    border: none;
+    background-color: #d9d9d9;
+    color: black;
+    border-radius: 10px;
+    text-indent: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.top{
+    position: relative;
+    max-height: calc(100% - 65px);
+    width: 90%;
+    left: 5%;
+    top: 50px;
+}
+
+.texto{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.mid{
+    position: absolute;
+
+    bottom: 70px;
+    left: 12px;
+    width: calc(100% - 12px);
+    text-align: center;
+    
+}
+
+.b{
+    font-weight: 600;
+}
+
+#texto1{
+    margin-bottom: 40px;
+}
+
+#texto2{
+    margin-bottom: 80px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 15px;
+    height: 140px;
+    width: 100%;
+
+    color: white;
+    text-align: center;
+    max-height: 25%;
+}
+
+.botaoFooter{
+    right: 10%;
+    position: absolute;
+    display: inline-block;
+    width: 80%;
+    margin: 10px 2%;
+    height: 45px;
+    bottom: 0px;
+    padding: 1px 6px;
+}

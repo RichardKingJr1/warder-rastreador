@@ -1,1 +1,23 @@
-<p>home works!</p>
+<div class="container">
+    <div class="top texto">
+        <div class="b" id="texto1">
+           Warder
+        </div>
+        <div class="b" id="texto2">
+            Condomínio Chácaras do Alto da Nova Campinas
+        </div>
+
+        <div>
+            Insira seu RG e inicie a transmissão da sua localização.<br>
+            Você será rastreado enquanto estiver dentro do condomínio.
+        </div>
+    </div>
+
+    <div class="mid" style=" z-index: 99;">
+        <!-- <label class="mont-font fw-600 font-xsss">Nome</label> -->
+        <input  class="botaoFooter"  type="text" placeholder="RG" #rg>               
+    </div>
+    <div class="footer" >
+        <div ><button class="botaoFooter" (click)="rastrear(rg.value)">Iniciar Transmissão</button></div>
+    </div>
+</div>
