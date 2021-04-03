@@ -16,6 +16,10 @@ export class HomeComponent implements OnInit {
   public portariaLon:number = -47.001585;
   public limiteDistanciaPortaria:number = 0.0003;
 
+  /*Controle de view*/
+  public ctrl_view: Boolean = true;
+  public ctrl_view_espera: Boolean = true;
+
   ngOnInit(): void {
   }
 
@@ -38,9 +42,21 @@ export class HomeComponent implements OnInit {
         this.rg = rg;
 
         this.webSocketService.emit('requestServer', dataObj);
+        this.ctrl_view = !this.ctrl_view;
+        this.ctrl_view_espera = true;
+
       };
        
     };
   }
 
+  viewCtrl(view:Boolean, view_espera:Boolean){
+    if(this.ctrl_view == view || this.ctrl_view_espera == view_espera){
+      return true;
+    }else{
+      return false
+    };
+  };
+
+  
 }

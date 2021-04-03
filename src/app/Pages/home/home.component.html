@@ -7,9 +7,16 @@
             Condomínio Chácaras do Alto da Nova Campinas
         </div>
 
-        <div>
+        <div [hidden]="!ctrl_view">
             Insira seu RG e inicie a transmissão da sua localização.<br>
             Você será rastreado enquanto estiver dentro do condomínio.
+        </div>
+
+        <div [hidden]="viewCtrl(true,true)" > 
+            Você está sendo rastreado
+        </div>
+        <div [hidden]="viewCtrl(true,false)"> 
+            Esperando autorização
         </div>
     </div>
 
