@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  /******** Iniciar rastreamento **********/
+  /******** Solicitar rastreamento **********/
   solicitarRastreio(rg: String): void{
     console.log('rastrear');
     if (!navigator.geolocation) {
@@ -71,9 +71,17 @@ export class HomeComponent implements OnInit {
         this.ctrl_view = !this.ctrl_view;
         this.ctrl_view_espera = true;
 
-      };   
-    };
+      }   
+    }
   };
+
+  /***** Cancelar solicitacao *******/
+  cancalerSolicitacao(){
+    this.webSocketService.emit('cancelarSolicitacao', this.rg);
+
+    this.ctrl_view = true;
+    this.ctrl_view_espera = true;
+  }
 
   /******* Controle do  view *******/
   viewCtrl(view:Boolean, view_espera:Boolean){

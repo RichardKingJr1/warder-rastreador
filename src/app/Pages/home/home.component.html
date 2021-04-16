@@ -25,6 +25,7 @@
         <input  class="botaoFooter"  type="text" placeholder="RG" #rg>               
     </div>
     <div class="footer" >
-        <div ><button class="botaoFooter" (click)="solicitarRastreio(rg.value)">Iniciar Transmissão</button></div>
+        <div [hidden]="!ctrl_view"><button class="botaoFooter" (click)="rastrear(rg.value)">Iniciar Transmissão</button></div>
+        <div [hidden]="viewCtrl(true,false)" ><button class="botaoFooter" (click)="cancalerSolicitacao()">Cancelar </button></div>
     </div>
 </div>
