@@ -24,8 +24,16 @@ export class HomeComponent implements OnInit {
     //ouve caso ocorra uma conexao ou reconexão e se ouver testa se o usuario ja estava logado
     this.conexao();
 
-    //caso ja estivesse logado move para o painel de vc esta sendo rastreado, caso contrario leva para pagina inicial
-    this.testeReconexao();
+    //le websocket para ver se o usuario ja estava logado move para o painel de vc esta sendo rastreado, caso contrario leva para pagina inicial
+    this.verificaReconexao();
+
+    //le websocket para ver inicio do rastreamento  
+    this.verificaInicioRastreio();
+
+    //le websocket para ver recusa do rastreamento  
+    this.verificaRecusaSolicitao();
+
+    //le websocket para ver fim do websocket
   }
 
 
@@ -37,7 +45,7 @@ export class HomeComponent implements OnInit {
   }
 
   /****** Ajusta o aplicativo para o caso de reconexao *****/
-  testeReconexao(){
+  verificaReconexao(){
     this.webSocketService.listen('alreadyConnected').subscribe((data) => {
       
       console.log(data);
@@ -81,6 +89,20 @@ export class HomeComponent implements OnInit {
 
     this.ctrl_view = true;
     this.ctrl_view_espera = true;
+  }
+
+  verificaInicioRastreio(){
+    this.webSocketService.listen('inicioRatreamento').subscribe((data) => {
+      this.ctrl_view_espera = !this.ctrl_view_espera;
+      //func de rastreamento
+    });
+  }
+
+  verificaRecusaSolicitao(){
+    this.webSocketService.listen('recusado').subscribe((data) => {
+      this.ctrl_view = true;
+      this.ctrl_view_espera = true;
+    });
   }
 
   /******* Controle do  view *******/
