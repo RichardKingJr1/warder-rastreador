@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from 'src/app/GlobalServices/web-socket.service';
+import { RastreioService } from './Services/rastreio.service';
 
 @Component({
   selector: 'app-home',
@@ -8,17 +9,19 @@ import { WebSocketService } from 'src/app/GlobalServices/web-socket.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private webSocketService:WebSocketService) { }
+  constructor(private webSocketService:WebSocketService, private _rastreio:RastreioService) { }
 
-  public rg: String | null = null;
+  public rg: string | null = null;
 
   public portariaLat:number = -22.904407;
   public portariaLon:number = -47.001585;
   public limiteDistanciaPortaria:number = 0.0003;
 
+  private id: number = 0;
+
   /*Controle de view*/
-  public ctrl_view: Boolean = true;
-  public ctrl_view_espera: Boolean = true;
+  public ctrl_view: boolean = true;
+  public ctrl_view_espera: boolean = true;
 
   ngOnInit(): void {
     //ouve caso ocorra uma conexao ou reconexão e se ouver testa se o usuario ja estava logado
@@ -39,7 +42,7 @@ export class HomeComponent implements OnInit {
 
   /***** Conexão ao websocket e teste para checar que o usuario estava anteriormente conectado***** */
   conexao(){
-    this.webSocketService.listen('connect').subscribe((data) => {
+    this.webSocketService.listen('connect').subscribe(() => {
       this.webSocketService.emit('alreadyConnected', this.rg);
     });
   }
@@ -60,7 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   /******** Solicitar rastreamento **********/
-  solicitarRastreio(rg: String): void{
+  solicitarRastreio(rg: string): void{
     console.log('rastrear');
     if (!navigator.geolocation) {
       window.alert('Rastreio nao suportado');
@@ -91,22 +94,24 @@ export class HomeComponent implements OnInit {
     this.ctrl_view_espera = true;
   }
 
+  /********* Verifica se o rastreamento foi iniciado***********/
   verificaInicioRastreio(){
-    this.webSocketService.listen('inicioRatreamento').subscribe((data) => {
+    this.webSocketService.listen('inicioRatreamento').subscribe(() => {
       this.ctrl_view_espera = !this.ctrl_view_espera;
-      //func de rastreamento
+      //Le as cordenadas toda vez q o gps encontra variação na posição e envia para o servidor
+      this.id = this._rastreio.restrear(this.rg);
     });
   }
 
   verificaRecusaSolicitao(){
-    this.webSocketService.listen('recusado').subscribe((data) => {
+    this.webSocketService.listen('recusado').subscribe(() => {
       this.ctrl_view = true;
       this.ctrl_view_espera = true;
     });
   }
 
   /******* Controle do  view *******/
-  viewCtrl(view:Boolean, view_espera:Boolean){
+  viewCtrl(view:boolean, view_espera:boolean){
     if(this.ctrl_view == view || this.ctrl_view_espera == view_espera){
       return true;
     }else{

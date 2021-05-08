@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Pages/home/home.component';
 
+import { WebSocketService } from 'src/app/GlobalServices/web-socket.service';
+
 @NgModule({
   declarations: [
     AppComponent,
