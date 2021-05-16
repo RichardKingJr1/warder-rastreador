@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
     this.verificaRecusaSolicitao();
 
     //le websocket para ver fim do websocket
+    this.verificaFimRastreio();
   }
 
 
@@ -103,11 +104,31 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /********* Verifica se a solicitacao foi cancelada***********/
   verificaRecusaSolicitao(){
     this.webSocketService.listen('recusado').subscribe(() => {
       this.ctrl_view = true;
       this.ctrl_view_espera = true;
     });
+  }
+  /********* Verifica se o rastreamento foi encerrado***********/
+  verificaFimRastreio(){
+    this.webSocketService.listen('admDisconnect').subscribe((data) => {
+      this.ctrl_view = !this.ctrl_view;
+      //desliga rastreador
+      navigator.geolocation.clearWatch(this.id);
+    });
+  }
+
+   /****Função para o usuário desligar o tracking*****/
+   desligar(){
+    console.log('desconectar');
+    //desliga rastreador
+    navigator.geolocation.clearWatch(this.id);
+    //coloca status como finalizado
+    this.webSocketService.emit('auDisconnect', this.rg);
+    console.log(this.rg);
+    this.ctrl_view = !this.ctrl_view;
   }
 
   /******* Controle do  view *******/
