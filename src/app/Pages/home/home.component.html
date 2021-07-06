@@ -7,23 +7,31 @@
             Condomínio Chácaras do Alto da Nova Campinas
         </div>
 
-        <div [hidden]="!ctrl_view">
-            Insira seu RG e inicie a transmissão da sua localização.<br>
-            Você será rastreado enquanto estiver dentro do condomínio.
+        <div  [hidden]="OS_ctrl">
+            <div [hidden]="!ctrl_view">
+                Insira seu RG e inicie a transmissão da sua localização.<br>
+                Você será rastreado enquanto estiver dentro do condomínio.
+            </div>
+    
+            <div [hidden]="viewCtrl(true,true)" > 
+                Você está sendo rastreado
+            </div>
+            <div [hidden]="viewCtrl(true,false)"> 
+                Esperando autorização
+            </div>
         </div>
 
-        <div [hidden]="viewCtrl(true,true)" > 
-            Você está sendo rastreado
+        <div [hidden]="!OS_ctrl">
+            Celular não suportado<br>
+            Solicite um rastreador na portaria
         </div>
-        <div [hidden]="viewCtrl(true,false)"> 
-            Esperando autorização
-        </div>
+        
     </div>
 
-    <div class="mid" style=" z-index: 99;">
+    <div class="mid" [hidden]="!ctrl_view" [hidden]="OS_ctrl" style=" z-index: 99;">
         <input  class="botaoFooter"  type="text" placeholder="RG" #rg>               
     </div>
-    <div class="footer" >
+    <div class="footer" [hidden]="OS_ctrl">
         <div [hidden]="!ctrl_view"><button class="botaoFooter" (click)="rastrear(rg.value)">Iniciar Transmissão</button></div>
         <div [hidden]="viewCtrl(true,true)" ><button class="botaoFooter" (click)="desligar()">Encerrar</button></div>
         <div [hidden]="viewCtrl(true,false)" ><button class="botaoFooter" (click)="cancalerSolicitacao()">Cancelar </button></div>

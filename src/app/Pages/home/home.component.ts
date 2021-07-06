@@ -23,6 +23,11 @@ export class HomeComponent implements OnInit {
   public ctrl_view: boolean = true;
   public ctrl_view_espera: boolean = true;
 
+  public OS_ctrl = false;
+
+  /*Lista de OS's que não aceitos*/
+  public OS = ['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'];
+
   ngOnInit(): void {
     //ouve caso ocorra uma conexao ou reconexão e se ouver testa se o usuario ja estava logado
     this.conexao();
@@ -122,12 +127,10 @@ export class HomeComponent implements OnInit {
 
    /****Função para o usuário desligar o tracking*****/
    desligar(){
-    console.log('desconectar');
     //desliga rastreador
     navigator.geolocation.clearWatch(this.id);
     //coloca status como finalizado
     this.webSocketService.emit('auDisconnect', this.rg);
-    console.log(this.rg);
     this.ctrl_view = !this.ctrl_view;
   }
 
@@ -139,6 +142,15 @@ export class HomeComponent implements OnInit {
       return false
     };
   };
+
+   /***** Detectar OS ******/
+  //detectar o sistema operacional
+  detectarSO(){
+    if(this.OS.includes(navigator.platform)){
+      //window.alert('Apple');
+      this.OS_ctrl = true;
+    }
+  }
 
 
 
