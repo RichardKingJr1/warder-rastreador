@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from 'src/app/GlobalServices/web-socket.service';
 import { RastreioService } from './Services/rastreio.service';
+import { SleepService } from './Services/sleep.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import { RastreioService } from './Services/rastreio.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private webSocketService:WebSocketService, private _rastreio:RastreioService) { }
+  constructor(private webSocketService:WebSocketService, private _rastreio:RastreioService, private _sleep:SleepService) { }
 
   public rg: string | null = null;
 
@@ -61,6 +62,9 @@ export class HomeComponent implements OnInit {
       if(data == true){
         this.ctrl_view = false;
         this.ctrl_view_espera = false;
+
+        this._rastreio.restrear(this.rg);
+        this._sleep.enable();
       }else{
         this.ctrl_view = true;
         this.ctrl_view_espera = true;
@@ -74,6 +78,7 @@ export class HomeComponent implements OnInit {
     if (!navigator.geolocation) {
       window.alert('Rastreio nao suportado');
     }else{
+      this._sleep.enable();
       if(rg){
         //versão sem controle de distancia portaria
         let dataObj = {
@@ -122,11 +127,13 @@ export class HomeComponent implements OnInit {
       this.ctrl_view = !this.ctrl_view;
       //desliga rastreador
       navigator.geolocation.clearWatch(this.id);
+      this._sleep.disable();
     });
   }
 
    /****Função para o usuário desligar o tracking*****/
    desligar(){
+     this._sleep.disable();
     //desliga rastreador
     navigator.geolocation.clearWatch(this.id);
     //coloca status como finalizado
@@ -151,7 +158,5 @@ export class HomeComponent implements OnInit {
       this.OS_ctrl = true;
     }
   }
-
-
 
 }
