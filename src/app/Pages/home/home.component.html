@@ -32,7 +32,7 @@
         <input  class="botaoFooter"  type="text" placeholder="RG" #rg>               
     </div>
     <div class="footer" [hidden]="OS_ctrl">
-        <div [hidden]="!ctrl_view"><button class="botaoFooter" (click)="rastrear(rg.value)">Iniciar Transmissão</button></div>
+        <div [hidden]="!ctrl_view"><button class="botaoFooter" (click)="solicitarRastreio(rg.value)">Iniciar Transmissão</button></div>
         <div [hidden]="viewCtrl(true,true)" ><button class="botaoFooter" (click)="desligar()">Encerrar</button></div>
         <div [hidden]="viewCtrl(true,false)" ><button class="botaoFooter" (click)="cancalerSolicitacao()">Cancelar </button></div>
     </div>

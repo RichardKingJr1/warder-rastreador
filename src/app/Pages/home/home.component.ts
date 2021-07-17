@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from 'src/app/GlobalServices/web-socket.service';
+import { MinimizadoService } from './Services/minimizado.service';
 import { RastreioService } from './Services/rastreio.service';
 import { SleepService } from './Services/sleep.service';
 
@@ -10,7 +11,7 @@ import { SleepService } from './Services/sleep.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private webSocketService:WebSocketService, private _rastreio:RastreioService, private _sleep:SleepService) { }
+  constructor(private webSocketService:WebSocketService, private _rastreio:RastreioService, private _nsleep:SleepService, private _minimizado:MinimizadoService) { }
 
   public rg: string | null = null;
 
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   public ctrl_view: boolean = true;
   public ctrl_view_espera: boolean = true;
 
-  public OS_ctrl = false;
+  public OS_ctrl: boolean = false;
 
   /*Lista de OS's que não aceitos*/
   public OS = ['iPad Simulator','iPhone Simulator','iPod Simulator','iPad','iPhone','iPod'];
@@ -44,6 +45,9 @@ export class HomeComponent implements OnInit {
 
     //le websocket para ver fim do websocket
     this.verificaFimRastreio();
+
+    //verifica se o aplicativo não foi minimizado
+    this._minimizado.minimizado();
   }
 
 
@@ -64,7 +68,7 @@ export class HomeComponent implements OnInit {
         this.ctrl_view_espera = false;
 
         this._rastreio.restrear(this.rg);
-        this._sleep.enable();
+        this._nsleep.enable();
       }else{
         this.ctrl_view = true;
         this.ctrl_view_espera = true;
@@ -78,7 +82,7 @@ export class HomeComponent implements OnInit {
     if (!navigator.geolocation) {
       window.alert('Rastreio nao suportado');
     }else{
-      this._sleep.enable();
+      this._nsleep.enable();
       if(rg){
         //versão sem controle de distancia portaria
         let dataObj = {
@@ -127,13 +131,13 @@ export class HomeComponent implements OnInit {
       this.ctrl_view = !this.ctrl_view;
       //desliga rastreador
       navigator.geolocation.clearWatch(this.id);
-      this._sleep.disable();
+      this._nsleep.disable();
     });
   }
 
    /****Função para o usuário desligar o tracking*****/
    desligar(){
-     this._sleep.disable();
+     this._nsleep.disable();
     //desliga rastreador
     navigator.geolocation.clearWatch(this.id);
     //coloca status como finalizado

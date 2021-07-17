@@ -13,8 +13,9 @@ export class WebSocketService {
   socket: Socket;
 
   constructor() {
-    //inicia conexão com o web socket
-    this.socket = io();
+    //inicia conexão com o web socket3
+    //this.socket = io();
+    this.socket = io('http://localhost:3000/');
   }
 
   //função para ouvir dado recebido
